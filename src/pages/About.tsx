@@ -1,110 +1,170 @@
 import Header from "@/components/layout/Header";
-import { Card, CardContent } from "@/components/ui/card";
-import { Database, FileSearch, Shield, Link as LinkIcon } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ExternalLink } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { usePublicationStats } from "@/hooks/usePublications";
 
 const About = () => {
+  const { data: stats } = usePublicationStats();
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
       
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">About & Methods</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">About & Data Guide</h1>
           <p className="text-muted-foreground">
-            Understanding our data, summarization approach, and limitations
+            Understanding the database, how to use it, and known limitations
           </p>
         </div>
 
         <div className="space-y-6">
           <Card>
-            <CardContent className="p-6">
-              <div className="flex items-start gap-3 mb-3">
-                <Database className="h-6 w-6 text-primary mt-1" />
-                <div>
-                  <h2 className="text-xl font-semibold text-foreground mb-2">Data Sources</h2>
-                  <p className="text-muted-foreground mb-4">
-                    This platform integrates 608 NASA-funded bioscience publications with enriched metadata from multiple authoritative sources:
-                  </p>
-                  <ul className="space-y-2 text-sm text-muted-foreground">
-                    <li>• Base publication list from NASA Space Biology challenge repository</li>
-                    <li>• Open Science Data Repository (OSDR/GeneLab) for datasets and omics data</li>
-                    <li>• NASA Space Life Sciences Library for full-text access</li>
-                    <li>• NASA Task Book for funding records and program context</li>
-                  </ul>
-                </div>
-              </div>
+            <CardHeader>
+              <CardTitle>What This App Is</CardTitle>
+            </CardHeader>
+            <CardContent className="prose prose-sm max-w-none">
+              <p>
+                The Space Biology Knowledge Engine is a searchable database of NASA-funded space biology publications.
+                It provides instant access to over {stats?.total || 600} research papers with direct links to full open-access text.
+              </p>
+              <p>
+                This tool helps scientists, program managers, and mission planners quickly find relevant research,
+                identify knowledge gaps, and understand the current state of space biology research.
+              </p>
             </CardContent>
           </Card>
 
           <Card>
-            <CardContent className="p-6">
-              <div className="flex items-start gap-3 mb-3">
-                <FileSearch className="h-6 w-6 text-accent mt-1" />
-                <div>
-                  <h2 className="text-xl font-semibold text-foreground mb-2">Summarization Policy</h2>
-                  <p className="text-muted-foreground mb-4">
-                    Each paper receives a structured 5-block AI-assisted summary:
-                  </p>
-                  <ol className="space-y-2 text-sm text-muted-foreground">
-                    <li>1. <strong>Context:</strong> Why the study matters</li>
-                    <li>2. <strong>Methods:</strong> Model/organism, platform, sample size, design</li>
-                    <li>3. <strong>Key Results:</strong> Objective findings with numbers and units</li>
-                    <li>4. <strong>Limitations:</strong> Sample size, confounders, analog constraints</li>
-                    <li>5. <strong>Mission Relevance:</strong> Implications for Moon/Mars planning</li>
-                  </ol>
-                  <p className="text-sm text-muted-foreground mt-4">
-                    All summaries preserve numeric values verbatim, mark speculation clearly, and store provenance 
-                    (section anchors) for verification.
-                  </p>
-                </div>
-              </div>
+            <CardHeader>
+              <CardTitle>What the Database Contains</CardTitle>
+            </CardHeader>
+            <CardContent className="prose prose-sm max-w-none">
+              <p className="font-semibold mb-2">Current Coverage:</p>
+              <ul>
+                <li><strong>{stats?.total || 600}+ publications</strong> from PubMed Central (PMC)</li>
+                <li>Publication titles with full-text search capability</li>
+                <li>Direct links to open-access full text on PubMed Central</li>
+                <li>Source attribution for all publications</li>
+              </ul>
+              <p className="text-sm text-muted-foreground mt-4">
+                <strong>Data Source:</strong> All publications are hosted on PubMed Central, 
+                a free full-text archive of biomedical and life sciences literature maintained by the 
+                National Library of Medicine at the National Institutes of Health.
+              </p>
             </CardContent>
           </Card>
 
           <Card>
-            <CardContent className="p-6">
-              <div className="flex items-start gap-3 mb-3">
-                <Shield className="h-6 w-6 text-warning mt-1" />
-                <div>
-                  <h2 className="text-xl font-semibold text-foreground mb-2">Credibility & Limitations</h2>
-                  <p className="text-muted-foreground mb-4">
-                    We prioritize transparency and trustworthiness:
-                  </p>
-                  <ul className="space-y-2 text-sm text-muted-foreground">
-                    <li>• All summaries include confidence scores and evidence levels</li>
-                    <li>• Source links and section provenance always visible</li>
-                    <li>• AI assists summarization - always verify via original sources</li>
-                    <li>• Coverage gaps identified and reported (not all papers have full enrichment)</li>
-                    <li>• Last updated: March 2025 • Version: 1.0</li>
-                  </ul>
-                </div>
-              </div>
+            <CardHeader>
+              <CardTitle>Known Limitations</CardTitle>
+            </CardHeader>
+            <CardContent className="prose prose-sm max-w-none">
+              <p>
+                <strong>Current limitations of this database:</strong>
+              </p>
+              <ul>
+                <li>No abstracts or publication years displayed yet (coming soon)</li>
+                <li>Some publications may be missing DOIs or additional metadata</li>
+                <li>Search is currently limited to title-based full-text search</li>
+                <li>Advanced filtering by organism, stressor, or system not yet available</li>
+              </ul>
+              <p className="text-sm text-muted-foreground">
+                We are continuously working to enhance the database with additional metadata, 
+                AI-generated summaries, and advanced filtering capabilities.
+              </p>
             </CardContent>
           </Card>
 
           <Card>
-            <CardContent className="p-6">
-              <div className="flex items-start gap-3 mb-3">
-                <LinkIcon className="h-6 w-6 text-primary mt-1" />
-                <div>
-                  <h2 className="text-xl font-semibold text-foreground mb-2">External Resources</h2>
-                  <ul className="space-y-2 text-sm">
-                    <li>
-                      <a href="https://osdr.nasa.gov" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">
-                        NASA Open Science Data Repository →
-                      </a>
-                    </li>
-                    <li>
-                      <a href="https://lsda.jsc.nasa.gov" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">
-                        Space Life Sciences Library →
-                      </a>
-                    </li>
-                    <li>
-                      <a href="https://taskbook.nasaprs.com" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">
-                        NASA Task Book →
-                      </a>
-                    </li>
-                  </ul>
+            <CardHeader>
+              <CardTitle>How to Use This App</CardTitle>
+            </CardHeader>
+            <CardContent className="prose prose-sm max-w-none">
+              <ol>
+                <li>
+                  <strong>Search:</strong> Use the search bar on the Explore page to find publications by keywords 
+                  (e.g., "plant microgravity", "immune response", "bone loss")
+                </li>
+                <li>
+                  <strong>Browse:</strong> View all publications sorted alphabetically or by recent additions
+                </li>
+                <li>
+                  <strong>Open Full Text:</strong> Click "Open Full Text" to read the complete article on PubMed Central
+                </li>
+                <li>
+                  <strong>Copy Links:</strong> Use the "Copy Link" button to save or share publication URLs
+                </li>
+                <li>
+                  <strong>View Details:</strong> Click on any publication title to see more information and find related papers
+                </li>
+              </ol>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Attribution & Data Sources</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-sm">
+                <strong>Open-Access Publication Links:</strong> All full-text links direct to PubMed Central (PMC), 
+                a service of the U.S. National Library of Medicine.
+              </p>
+              <p className="text-sm text-muted-foreground">
+                PubMed Central provides free access to biomedical and life sciences literature. 
+                When citing publications from this database, please use the citation tools available on PMC.
+              </p>
+              
+              <div className="pt-4 border-t">
+                <p className="text-sm font-medium mb-3">Related NASA Resources:</p>
+                <div className="space-y-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    asChild
+                    className="w-full justify-start"
+                  >
+                    <a 
+                      href="https://osdr.nasa.gov/" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                    >
+                      Open Science Data Repository (OSDR)
+                      <ExternalLink className="h-3 w-3 ml-auto" />
+                    </a>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    asChild
+                    className="w-full justify-start"
+                  >
+                    <a 
+                      href="https://lsda.jsc.nasa.gov/" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                    >
+                      NASA Life Sciences Data Archive
+                      <ExternalLink className="h-3 w-3 ml-auto" />
+                    </a>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    asChild
+                    className="w-full justify-start"
+                  >
+                    <a 
+                      href="https://taskbook.nasaprs.com/" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                    >
+                      NASA Task Book (Funding Records)
+                      <ExternalLink className="h-3 w-3 ml-auto" />
+                    </a>
+                  </Button>
                 </div>
               </div>
             </CardContent>

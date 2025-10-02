@@ -14,7 +14,153 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bookmarks: {
+        Row: {
+          created_at: string | null
+          id: string
+          publication_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          publication_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          publication_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookmarks_publication_id_fkey"
+            columns: ["publication_id"]
+            isOneToOne: false
+            referencedRelation: "publications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      paper_tags: {
+        Row: {
+          evidence_level: string | null
+          id: string
+          organism: string | null
+          outcome_direction: string | null
+          platform: string | null
+          pub_id: string
+          stressor: string | null
+          study_type: string | null
+          system: string | null
+          year: number | null
+        }
+        Insert: {
+          evidence_level?: string | null
+          id?: string
+          organism?: string | null
+          outcome_direction?: string | null
+          platform?: string | null
+          pub_id: string
+          stressor?: string | null
+          study_type?: string | null
+          system?: string | null
+          year?: number | null
+        }
+        Update: {
+          evidence_level?: string | null
+          id?: string
+          organism?: string | null
+          outcome_direction?: string | null
+          platform?: string | null
+          pub_id?: string
+          stressor?: string | null
+          study_type?: string | null
+          system?: string | null
+          year?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "paper_tags_pub_id_fkey"
+            columns: ["pub_id"]
+            isOneToOne: true
+            referencedRelation: "publications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      publications: {
+        Row: {
+          id: string
+          ingested_at: string | null
+          source: string | null
+          title: string
+          url_main: string
+        }
+        Insert: {
+          id?: string
+          ingested_at?: string | null
+          source?: string | null
+          title: string
+          url_main: string
+        }
+        Update: {
+          id?: string
+          ingested_at?: string | null
+          source?: string | null
+          title?: string
+          url_main?: string
+        }
+        Relationships: []
+      }
+      summaries: {
+        Row: {
+          confidence: string | null
+          context: string | null
+          id: string
+          limitations: string | null
+          methods: string | null
+          mission_relevance: string | null
+          provenance_json: Json | null
+          pub_id: string
+          results: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          confidence?: string | null
+          context?: string | null
+          id?: string
+          limitations?: string | null
+          methods?: string | null
+          mission_relevance?: string | null
+          provenance_json?: Json | null
+          pub_id: string
+          results?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          confidence?: string | null
+          context?: string | null
+          id?: string
+          limitations?: string | null
+          methods?: string | null
+          mission_relevance?: string | null
+          provenance_json?: Json | null
+          pub_id?: string
+          results?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "summaries_pub_id_fkey"
+            columns: ["pub_id"]
+            isOneToOne: true
+            referencedRelation: "publications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

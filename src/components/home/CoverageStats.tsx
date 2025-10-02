@@ -1,13 +1,36 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Database, Calendar, Link as LinkIcon, CheckCircle2 } from "lucide-react";
+import { Database, Calendar, CheckCircle2, ExternalLink, BookOpen } from "lucide-react";
+import { usePublicationStats } from "@/hooks/usePublications";
 
 const CoverageStats = () => {
-  const stats = [
-    { label: "Total Publications", value: "608", icon: Database },
-    { label: "Summarized", value: "587", icon: CheckCircle2, badge: "96.5%" },
-    { label: "Last Updated", value: "Mar 2025", icon: Calendar },
-    { label: "External Links", value: "892", icon: LinkIcon },
+  const { data: stats } = usePublicationStats();
+  
+  const coverage = [
+    {
+      icon: Database,
+      label: "Total Publications",
+      value: stats?.total || 0,
+      description: "NASA bioscience studies from PMC",
+    },
+    {
+      icon: CheckCircle2,
+      label: "Open Access",
+      value: "100%",
+      description: "Full text available on PMC",
+    },
+    {
+      icon: Calendar,
+      label: "Last Updated",
+      value: "2025",
+      description: "Current as of March 2025",
+    },
+    {
+      icon: BookOpen,
+      label: "Data Sources",
+      value: "3",
+      description: "OSDR, Library, Task Book",
+    },
   ];
 
   return (
@@ -23,7 +46,7 @@ const CoverageStats = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {stats.map((stat) => {
+          {coverage.map((stat) => {
             const Icon = stat.icon;
             return (
               <Card key={stat.label} className="border-2 shadow-card">
@@ -34,16 +57,14 @@ const CoverageStats = () => {
                     </div>
                   </div>
                   <div className="mb-1 text-3xl font-bold text-foreground">
-                    {stat.value}
+                    {typeof stat.value === 'number' ? stat.value.toLocaleString() : stat.value}
                   </div>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-sm font-medium text-foreground mb-1">
                     {stat.label}
                   </div>
-                  {stat.badge && (
-                    <Badge variant="secondary" className="mt-2">
-                      {stat.badge}
-                    </Badge>
-                  )}
+                  <div className="text-xs text-muted-foreground">
+                    {stat.description}
+                  </div>
                 </CardContent>
               </Card>
             );
